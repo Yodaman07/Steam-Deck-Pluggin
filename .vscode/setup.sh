@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#/bin/bash
 PNPM_INSTALLED="$(which pnpm)"
 DOCKER_INSTALLED="$(which docker)"
 CLI_INSTALLED="$(pwd)/cli/decky"
