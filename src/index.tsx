@@ -1,8 +1,9 @@
 import {
   ButtonItem,
+  DialogBody,
+  Navigation,
   PanelSection,
   PanelSectionRow,
-  Navigation,
   staticClasses
 } from "@decky/ui";
 import {
@@ -11,10 +12,13 @@ import {
   callable,
   definePlugin,
   toaster,
+  routerHook,
   // routerHook
 } from "@decky/api"
 import { useState } from "react";
-import { FaShip } from "react-icons/fa";
+import {FaSuperpowers} from "react-icons/fa"; //FONT AWESOME Icons https://fontawesome.com/
+import patchBPM from "./patchBPM";
+
 
 // import logo from "../assets/logo.png";
 
@@ -53,6 +57,32 @@ function Content() {
         >
           {"Start Python timer"}
         </ButtonItem>
+        
+      </PanelSectionRow>
+
+      <PanelSectionRow>
+        <ButtonItem
+          layout="below"
+          onClick={()=>{
+            Navigation.Navigate("/library/app/newdata")
+          }}
+        >
+          {"Navigatesa"}
+        </ButtonItem>
+        
+      </PanelSectionRow>
+
+
+         <PanelSectionRow>
+        <ButtonItem
+          layout="below"
+          onClick={()=>{
+            Navigation.NavigateToAppProperties()
+          }}
+        >
+          {"BOOM"}
+        </ButtonItem>
+        
       </PanelSectionRow>
 
       {/* <PanelSectionRow>
@@ -76,40 +106,25 @@ function Content() {
   );
 };
 
-export default definePlugin(() => {
-  console.log("Template plugin initializing, this is called once on frontend startup")
 
-  // serverApi.routerHook.addRoute("/decky-plugin-test", DeckyPluginRouterTest, {
-  //   exact: true,
-  // });
+
+export default definePlugin(() => {
+  console.log("Init")
+
+  // routerHook.addRoute('/library/app/newdata', DialogBody) //replace panelsection with actual component 
 
   // Add an event listener to the "timer_event" event from the backend
-  const listener = addEventListener<[
-    test1: string,
-    test2: boolean,
-    test3: number
-  ]>("timer_event", (test1, test2, test3) => {
-    console.log("Template got timer_event with:", test1, test2, test3)
-    toaster.toast({
-      title: "template got timer_event",
-      body: `${test1}, ${test2}, ${test3}`
-    });
-  });
+  const BPMPatch = patchBPM() //Big Picture Mode Patch
 
   return {
-    // The name shown in various decky menus
-    name: "Test Plugin",
-    // The element displayed at the top of your plugin's menu
-    titleView: <div className={staticClasses.Title}>Decky Example Plugin</div>,
-    // The content of your plugin's menu
-    content: <Content />,
-    // The icon displayed in the plugin list
-    icon: <FaShip />,
-    // The function triggered when your plugin unloads
-    onDismount() {
-      console.log("Unloading")
-      removeEventListener("timer_event", listener);
-      // serverApi.routerHook.removeRoute("/decky-plugin-test");
+    name: "Mission Plugin", 
+    titleView: <div className={staticClasses.Title}>Mission Viewing Plugin</div>, // The element displayed at the top of your plugin's menu
+    content: <Content />, // The content of your plugin's menu (don't really need)
+    icon: <FaSuperpowers/>, // The icon displayed in the plugin list
+    onDismount() { // The function triggered when your plugin unloads
+      console.log("Unloading Plugin")
+      routerHook.removePatch('/library/app/:appid', BPMPatch);
+      // routerHook.removeRoute("/library/app/newdata");
     },
   };
 });
