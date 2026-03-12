@@ -1,17 +1,19 @@
-import {
-  afterPatch,
-  findInReactTree,
-  appDetailsClasses,
-  createReactTreePatcher,
-  PanelSection
-} from '@decky/ui'
+import { PanelSection, PanelSectionRow } from '@decky/ui';
 import { routerHook } from '@decky/api';
-import React, { ReactElement } from 'react'
 
-export default function new_route(){
-    return routerHook.addRoute('library/app/newdata', PanelSection)
-    // return routerHook.addPatch('/library/app/:appId', (props: {path: string; children: ReactElement}) =>{
-    //     //DO WORK TO FIND SPECIFIC ELEMENT
-    //     return props
-    // })
+export const NEW_ROUTE_PATH = '/decky-plugin-test';
+
+// Small panel that appears when navigating to NEW_ROUTE_PATH
+function NewRoutePanel() {
+  return (
+    <PanelSection title="New Panel">
+      <PanelSectionRow>
+        <div>Hello from the new route!</div>
+      </PanelSectionRow>
+    </PanelSection>
+  );
+}
+
+export default function addNewRoute() {
+  routerHook.addRoute(NEW_ROUTE_PATH, NewRoutePanel);
 }
