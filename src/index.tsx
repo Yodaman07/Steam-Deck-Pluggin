@@ -13,11 +13,11 @@ import {
   definePlugin,
   toaster,
   routerHook,
-  // routerHook
 } from "@decky/api"
 import { useState } from "react";
 import {FaSuperpowers} from "react-icons/fa"; //FONT AWESOME Icons https://fontawesome.com/
 import patchBPM from "./patchBPM";
+import addNewRoute, { NEW_ROUTE_PATH } from "./new_route";
 
 
 // import logo from "../assets/logo.png";
@@ -63,13 +63,13 @@ function Content() {
       <PanelSectionRow>
         <ButtonItem
           layout="below"
-          onClick={()=>{
-            Navigation.Navigate("/library/app/newdata")
+          onClick={() => {
+            Navigation.Navigate(NEW_ROUTE_PATH);
+            Navigation.CloseSideMenus();
           }}
         >
-          {"Navigatesa"}
+          {"Open New Panel"}
         </ButtonItem>
-        
       </PanelSectionRow>
 
 
@@ -111,9 +111,7 @@ function Content() {
 export default definePlugin(() => {
   console.log("Init")
 
-  // routerHook.addRoute('/library/app/newdata', DialogBody) //replace panelsection with actual component 
-
-  // Add an event listener to the "timer_event" event from the backend
+  addNewRoute(); // Register the new panel route at NEW_ROUTE_PATH
   const BPMPatch = patchBPM() //Big Picture Mode Patch
 
   return {
@@ -124,7 +122,7 @@ export default definePlugin(() => {
     onDismount() { // The function triggered when your plugin unloads
       console.log("Unloading Plugin")
       routerHook.removePatch('/library/app/:appid', BPMPatch);
-      // routerHook.removeRoute("/library/app/newdata");
+      routerHook.removeRoute(NEW_ROUTE_PATH);
     },
   };
 });
