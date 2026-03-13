@@ -18,6 +18,7 @@ import {
 import { useState } from "react";
 import {FaSuperpowers} from "react-icons/fa"; //FONT AWESOME Icons https://fontawesome.com/
 import patchBPM from "./patchBPM";
+import create_new_route from "./new_route";
 
 
 // import logo from "../assets/logo.png";
@@ -84,24 +85,6 @@ function Content() {
         </ButtonItem>
         
       </PanelSectionRow>
-
-      {/* <PanelSectionRow>
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <img src={logo} />
-        </div>
-      </PanelSectionRow> */}
-
-      {/*<PanelSectionRow>
-        <ButtonItem
-          layout="below"
-          onClick={() => {
-            Navigation.Navigate("/decky-plugin-test");
-            Navigation.CloseSideMenus();
-          }}
-        >
-          Router
-        </ButtonItem>
-      </PanelSectionRow>*/}
     </PanelSection>
   );
 };
@@ -112,10 +95,11 @@ export default definePlugin(() => {
   console.log("Init")
 
   // routerHook.addRoute('/library/app/newdata', DialogBody) //replace panelsection with actual component 
-
+  
   // Add an event listener to the "timer_event" event from the backend
+  create_new_route()
   const BPMPatch = patchBPM() //Big Picture Mode Patch
-
+  
   return {
     name: "Mission Plugin", 
     titleView: <div className={staticClasses.Title}>Mission Viewing Plugin</div>, // The element displayed at the top of your plugin's menu
@@ -124,7 +108,7 @@ export default definePlugin(() => {
     onDismount() { // The function triggered when your plugin unloads
       console.log("Unloading Plugin")
       routerHook.removePatch('/library/app/:appid', BPMPatch);
-      // routerHook.removeRoute("/library/app/newdata");
+      routerHook.removeRoute("/library/app/newdata");
     },
   };
 });

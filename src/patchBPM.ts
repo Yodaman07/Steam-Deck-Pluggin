@@ -20,7 +20,7 @@ export default function patchBPM(){
         if (routeProps){
 
             const patchHandler = createReactTreePatcher( //this is what does the patching work
-
+                //look at the react tree before patching in
 
             )
 
