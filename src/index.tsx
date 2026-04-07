@@ -48,7 +48,7 @@ function Content() {
           layout="below"
           onClick={onClick}
         >
-          {result ?? "Add two numbers via Python"}
+          {result ?? "Add two numbers via Pythons"}
         </ButtonItem>
       </PanelSectionRow>
       <PanelSectionRow>
